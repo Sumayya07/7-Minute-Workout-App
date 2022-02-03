@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">7MinutesWorkoutApp</string>
+    <string name="image">start_image</string>
 </resources>
