@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,13 +7,35 @@
     tools:context=".ExerciseActivity">
     
     <androidx.appcompat.widget.Toolbar
+        app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/toolbarExercise"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:theme="@style/ToolbarTheme"
         android:background="@color/white"
-        app:titleTextColor="#242526">
+        app:titleTextColor="#242526" />
 
-    </androidx.appcompat.widget.Toolbar>
+<!--        <TextView-->
+<!--            android:id="@+id/tvTitle"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="GET READY FOR"-->
+<!--            android:textSize="22sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="#228C22"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            />-->
 
-</RelativeLayout>
+        <FrameLayout
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/item_circular_color_accent_border"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+
+            />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
