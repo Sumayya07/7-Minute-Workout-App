@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import com.sumayya.a7minutesworkoutapp.databinding.ActivityExerciseBinding
 
+// Exercise Activity
 class ExerciseActivity : AppCompatActivity() {
     private var binding: ActivityExerciseBinding? = null
 
@@ -87,7 +88,6 @@ class ExerciseActivity : AppCompatActivity() {
 
             override fun onFinish() {
                 Toast.makeText(this@ExerciseActivity, "30 seconds are over, lets go to the rest view", Toast.LENGTH_SHORT).show()
-
             }
         }.start()
     }
