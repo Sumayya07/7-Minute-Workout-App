@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.Toast
 import com.sumayya.a7minutesworkoutapp.databinding.ActivityExerciseBinding
 
-// Exercise Activity
+// Exercise Activity for multiple exercises
 class ExerciseActivity : AppCompatActivity() {
     private var binding: ActivityExerciseBinding? = null
 
