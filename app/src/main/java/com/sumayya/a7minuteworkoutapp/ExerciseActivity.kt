@@ -1,13 +1,19 @@
 package com.sumayya.a7minuteworkoutapp
 
+import android.media.MediaPlayer
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.speech.tts.TextToSpeech
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.sumayya.a7minuteworkoutapp.databinding.ActivityExerciseBinding
+import java.util.*
+import kotlin.collections.ArrayList
 
-class ExerciseActivity : AppCompatActivity() {
+class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private var binding: ActivityExerciseBinding? = null
 
@@ -23,9 +29,19 @@ class ExerciseActivity : AppCompatActivity() {
     private var exerciseList: ArrayList<ExerciseModel>? = null
     private var currentExercisePosition = -1 // Current Position of Exercise.
 
+    // Variable for Text to Speech which will be initialized later on.
+    private var tts: TextToSpeech? = null // Variable for Text to Speech
+
+    // Declaring the variable of the media player for playing a notification sound when the exercise is about to start.
+    private var player: MediaPlayer? = null
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // inflate the layout
         binding = ActivityExerciseBinding.inflate(layoutInflater)
+        // pass in binding?.root in the content view
         setContentView(binding?.root)
 
         // To use a toolbar inside our exercise activity we use this method
@@ -39,6 +55,9 @@ class ExerciseActivity : AppCompatActivity() {
             onBackPressed() // This method will take us to the previous screen.
         }
 
+        // Initializing the variable of Text to Speech.
+        tts = TextToSpeech(this, this)
+
         // Initializing and Assigning a default exercise list to our list variable.
         exerciseList = Constants.defaultExerciseList()
 
@@ -47,7 +66,23 @@ class ExerciseActivity : AppCompatActivity() {
     }
 
 
-        private fun setupRestView(){
+    private fun setupRestView(){
+
+        // Playing a notification sound when the exercise is about to start when you are in the rest state.
+        // The sound file is added in the raw folder as resource.
+        // Here the sound file is added in to "raw" folder in resources.
+        // And played using MediaPlayer. MediaPlayer class can be used to control playback of audio/video files and streams.
+
+        try{
+            val soundURI = Uri.parse("android.resource://com.sumayya.a7minuteworkoutapp/" + R.raw.press_start)
+            player = MediaPlayer.create(applicationContext, soundURI)
+            player?.isLooping = false // Sets the player to be looping or non-looping.
+            player?.start() // Starts Playback.
+        } catch (e: Exception){
+            e.printStackTrace()
+        }
+
+
             binding?.flRestView?.visibility = View.VISIBLE
             binding?.tvTitle?.visibility = View.VISIBLE
             binding?.tvExerciseName?.visibility = View.INVISIBLE
@@ -89,6 +124,8 @@ class ExerciseActivity : AppCompatActivity() {
             exerciseTimer?.cancel()
             exerciseProgress = 0
         }
+
+        speakOut(exerciseList!![currentExercisePosition].getName())
 
         // Setting up the current exercise name and image to view to the UI element.
         // Here current exercise name and image is set to exercise view.
@@ -140,6 +177,35 @@ class ExerciseActivity : AppCompatActivity() {
         }.start()
     }
 
+
+
+    // This the TextToSpeech override function.
+    // Called to signal the completion of the TextToSpeech engine initialization.
+    override fun onInit(status: Int) {
+        // After variable initializing set the language after a "success"ful result.
+        if (status == TextToSpeech.SUCCESS){
+            // set US English as language for tts
+            val result = tts?.setLanguage(Locale.US)
+
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED){
+                Log.e("TTS", "The Language specified is not supported!")
+            }
+        }
+        else{
+            Log.e("TTS",  "Initialization Failed!")
+        }
+    }
+
+    // Making a function to speak the text.
+    // Function is used to speak the text that we pass to it.
+
+    private fun speakOut(text: String){
+        tts!!.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
+    }
+
+
+    // Destroying the timer when closing the activity or app
+    //  Here in the Destroy function we will reset the rest timer if it is running.
     override fun onDestroy() {
         super.onDestroy()
         if (restTimer != null){
@@ -152,9 +218,19 @@ class ExerciseActivity : AppCompatActivity() {
             exerciseProgress = 0
         }
 
+        // Shutting down the Text to Speech feature when activity is destroyed.
+        if (tts != null) {
+            tts!!.stop()
+            tts!!.shutdown()
+        }
+
+
+        // When the activity is destroyed if the media player instance is not null then stop it.
+        if (player != null){
+            player?.stop()
+        }
+
         binding = null
     }
 
-
-
-    }
+}
