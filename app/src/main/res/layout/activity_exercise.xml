@@ -143,7 +143,6 @@
         android:background="@drawable/item_circular_color_accent_border"
         android:visibility="gone"
         tools:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvExerciseName"
@@ -181,6 +180,21 @@
         </LinearLayout>
 
     </FrameLayout>
+
+    <!-- Adding the recycler view component and designing item for it. -->
+    <!-- Adding a RecyclerView component and adjusting the view in the design.-->
+    <!--As added the above param in both the views. -->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvExerciseStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/flExerciseView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="5dp"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
