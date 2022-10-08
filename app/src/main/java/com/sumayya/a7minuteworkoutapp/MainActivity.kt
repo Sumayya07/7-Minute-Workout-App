@@ -32,6 +32,15 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+
+        // Adding a click event to launch the History Screen Activity from Main Activity.
+        binding?.flHistory?.setOnClickListener {
+            // Launching the BMI Activity
+            val intent = Intent(this, HistoryActivity::class.java)
+            startActivity(intent)
+        }
+
+
     }
 
     override fun onDestroy() {
