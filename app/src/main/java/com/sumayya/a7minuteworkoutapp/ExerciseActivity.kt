@@ -26,12 +26,12 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     // Variable for how far we have come
     private var restProgress = 0
 
-    private var restTimerDuration: Long = 1
+    private var restTimerDuration: Long = 10
 
     private var exerciseTimer: CountDownTimer? = null
     private var exerciseProgress = 0
 
-    private var exerciseTimerDuration: Long = 1
+    private var exerciseTimerDuration: Long = 30
 
 
     // The Variable for the exercise list and current position of exercise here it is -1 as the list starting element is 0
